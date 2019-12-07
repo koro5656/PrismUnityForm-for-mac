@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Foundation;
+﻿using Foundation;
+using Prism;
+using Prism.Ioc;
 using UIKit;
 
 namespace XF4P7Base.iOS
@@ -23,9 +21,16 @@ namespace XF4P7Base.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+            LoadApplication(new App(new iOSPlatformInitializer()));
 
             return base.FinishedLaunching(app, options);
+        }
+    }
+
+    public class iOSPlatformInitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
         }
     }
 }

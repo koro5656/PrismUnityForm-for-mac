@@ -1,16 +1,35 @@
-﻿using System;
+﻿using Prism;
+using Prism.Ioc;
+using Prism.Unity;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using XF4P7Base.ViewModels;
+using XF4P7Base.Views;
 
 namespace XF4P7Base
 {
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
         public App()
+            : this(null)
+        {
+        }
+
+        public App(IPlatformInitializer platformInitializer)
+            : base(platformInitializer)
+        {
+        }
+
+        protected override void OnInitialized()
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            NavigationService.NavigateAsync("NavigationPage/MainPage");
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterForNavigation<NavigationPage>();
+            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
         }
 
         protected override void OnStart()
@@ -20,11 +39,17 @@ namespace XF4P7Base
 
         protected override void OnSleep()
         {
+            // Handle IApplicationLifecycle
+            base.OnSleep();
+
             // Handle when your app sleeps
         }
 
         protected override void OnResume()
         {
+            // Handle IApplicationLifecycle
+            base.OnResume();
+
             // Handle when your app resumes
         }
     }
